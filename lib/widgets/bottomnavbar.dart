@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:motion_tab_bar/MotionTabBar.dart';
 import 'package:motion_tab_bar/MotionTabBarController.dart';
 import 'package:spendwise/screens/addincomeexpense.dart';
@@ -43,7 +44,7 @@ class _BottomState extends State<Bottom> with TickerProviderStateMixin {
         initialSelectedTab: "Home", 
         labels: const ["Home", "stats", "Add"],
         icons: const [
-          Icons.home_rounded, 
+          Icons.home, 
           Icons.add,
           Icons.pie_chart,
          
