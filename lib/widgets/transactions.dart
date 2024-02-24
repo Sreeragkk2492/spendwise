@@ -5,16 +5,22 @@ class Transactions extends StatelessWidget {
   VoidCallback onclick;
   IconData icons;
   TextInputType? type;
+  TextEditingController? controller;
+  String? initialvalue;
   Transactions(
       {super.key,
       required this.onclick,
       required this.icons,
       required this.hintText,
-       this.type});
+       this.type,required this.controller,this.initialvalue
+       });
+       
 
   @override
   Widget build(BuildContext context) {
+   
     return TextField(
+      controller: controller,
       keyboardType:type ,
       cursorColor: Colors.black,
       decoration: InputDecoration(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spendwise/screens/home.dart';
 import 'package:spendwise/screens/login.dart';
 import 'package:spendwise/screens/signup.dart';
 import 'package:spendwise/screens/welcome.dart';
@@ -53,7 +54,7 @@ class Authentication extends StatelessWidget {
             right: 20,
             top: 40,
             child: TextButton(onPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Myhome()));
             }, child: Text('Skip')))
         ],
       ),

@@ -7,6 +7,8 @@ import 'package:spendwise/screens/chart.dart';
 import 'package:spendwise/screens/home.dart';
 
 class Bottom extends StatefulWidget {
+ 
+
   @override
   State<Bottom> createState() => _BottomState();
 }

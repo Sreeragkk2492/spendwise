@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:spendwise/models/firebase.dart';
+import 'package:spendwise/models/firebasegoogle.dart';
 import 'package:spendwise/screens/login.dart';
 import 'package:spendwise/widgets/authbutton.dart';
 import 'package:spendwise/widgets/bottomnavbar.dart';
 import 'package:spendwise/widgets/googlebutton.dart';
-import 'package:spendwise/widgets/heading.dart';
 import 'package:spendwise/widgets/textbutton.dart';
 import 'package:spendwise/widgets/textfieldwidget.dart';
 
 class Signup extends StatelessWidget {
-  const Signup({super.key});
+   Signup({super.key});
+final usernamecontroller=TextEditingController();
+  final emailcontroller=TextEditingController();
+  final passwordcontroller=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +24,7 @@ class Signup extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 300,
-              decoration: BoxDecoration(
+              decoration:const BoxDecoration(
                   color: Color.fromARGB(255, 218, 18, 3),
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.elliptical(20, 20))),
@@ -63,22 +67,41 @@ class Signup extends StatelessWidget {
                         height: 10,
                       ),
                       Textfieldwidget(
+                        controller: usernamecontroller,
                         hinttext: 'Username',
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      Textfieldwidget(hinttext: 'Email'),
+                      Textfieldwidget(
+                        controller: emailcontroller,
+                        hinttext: 'Email'),
                       SizedBox(
                         height: 20,
                       ),
-                      Textfieldwidget(hinttext: 'Password'),
+                      Textfieldwidget(
+                        controller: passwordcontroller,
+                        hinttext: 'Password'),
                       SizedBox(
                         height: 20,
                       ),
                       Authbutton(
                         colors: Color.fromARGB(255, 218, 18, 3),
-                        ontap: () {},
+                        ontap: () {
+                           String email = emailcontroller.text.trim();
+                  String password = passwordcontroller.text.trim();
+                  FireBaseFunction()
+                      .registeruser(email: email, password: password)
+                      .then((response) {
+                    if (response == null) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => Loginpage()));
+                    } else {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(response)));
+                    }
+                  });
+                        },
                         title: 'REGISTER',
                         textcolor: Colors.white,
                       ),
@@ -95,12 +118,13 @@ class Signup extends StatelessWidget {
                       Divider(
                         height: 10,
                         endIndent: 1,
-                      ),
+                      ), 
                       SizedBox(
-                        height: 20,
-                      ),
+                        height: 20, 
+                      ), 
                       Googlebutton(onclick: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom()));
+                       Firebasegoogle().signinwithgoogle(); 
+                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom()));
                       }),
                     ],
                   ),

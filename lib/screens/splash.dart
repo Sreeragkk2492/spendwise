@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spendwise/screens/welcome.dart';
+import 'package:spendwise/widgets/bottomnavbar.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -9,6 +11,7 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  String? email;
 
   @override
   void initState() {
@@ -37,7 +40,9 @@ class _SplashState extends State<Splash> {
   }
   
   void gotowelcomescreen() async{
-    await Future.delayed(Duration(seconds: 1));
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Welcome()));
+      User? user = FirebaseAuth.instance.currentUser;
+      Widget initialScreen = user != null ? Bottom() :const Welcome();
+    await Future.delayed(const Duration(seconds: 1));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>initialScreen));
   }
 }

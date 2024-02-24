@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:spendwise/screens/auth.dart';
 import 'package:spendwise/screens/login.dart';
 import 'package:spendwise/screens/signup.dart';
 import 'package:spendwise/widgets/authbutton.dart';
-import 'package:spendwise/widgets/button.dart';
 import 'package:spendwise/widgets/textbutton.dart';
 
 class Welcome extends StatelessWidget {
@@ -19,7 +17,7 @@ class Welcome extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(color: Colors.black),
           ),
-          Positioned(
+          const Positioned(
               top: 140,
               left: 110,
               child: Text(
@@ -27,7 +25,7 @@ class Welcome extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 30, color: Colors.white, letterSpacing: 3),
               )),
-          Positioned(
+          const Positioned(
               top: 180,
               left: 160,
               child: Text(
@@ -40,7 +38,7 @@ class Welcome extends StatelessWidget {
               child: Container(
                 width: 250,
                 height: 250,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/images/welcome.png'),
                         fit: BoxFit.cover)),
@@ -49,7 +47,7 @@ class Welcome extends StatelessWidget {
               bottom: 70,
               left: 50,
               child: Authbutton(
-                  colors: Color.fromARGB(255, 218, 18, 3), 
+                  colors: Color.fromARGB(255, 218, 18, 3),
                   ontap: () {
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => Loginpage()));

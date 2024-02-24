@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:spendwise/models/firebase.dart';
+import 'package:spendwise/models/firebasegoogle.dart';
 import 'package:spendwise/screens/signup.dart';
 import 'package:spendwise/widgets/authbutton.dart';
+import 'package:spendwise/widgets/bottomnavbar.dart';
 import 'package:spendwise/widgets/googlebutton.dart';
 import 'package:spendwise/widgets/heading.dart';
 import 'package:spendwise/widgets/textbutton.dart';
 import 'package:spendwise/widgets/textfieldwidget.dart';
 
 class Loginpage extends StatelessWidget {
-  const Loginpage({super.key});
+   Loginpage({super.key});
+
+   final emailcontroller = TextEditingController();
+  final passwordcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +69,34 @@ class Loginpage extends StatelessWidget {
                         height: 10,
                       ),
 
-                      Textfieldwidget(hinttext: 'Email'),
+                      Textfieldwidget(
+                        controller: emailcontroller,
+                        hinttext: 'Email'),
                       SizedBox(
                         height: 20,
                       ),
-                      Textfieldwidget(hinttext: 'Password'),
+                      Textfieldwidget(
+                        controller: passwordcontroller,
+                        hinttext: 'Password'),
                       SizedBox(
                         height: 20,
                       ),
                       Authbutton(
                         colors: Color.fromARGB(255, 218, 18, 3),
-                        ontap: () {},
+                        ontap: () {
+                           String email=emailcontroller.text.trim();
+                String password=passwordcontroller.text.trim();
+
+                FireBaseFunction().loginuser(email:email,password:password).then((response){
+                  if(response==null){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom()));
+                  }else{
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(response)));
+                  }
+
+                });
+                        },
                         title: 'LOGIN',
                         textcolor: Colors.white,
                       ),
@@ -94,7 +117,10 @@ class Loginpage extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      Googlebutton(onclick: () {}),
+                      Googlebutton(onclick: () { 
+                        Firebasegoogle().signinwithgoogle();
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom()));
+                      }),
                     ],
                   ),
                 ),
