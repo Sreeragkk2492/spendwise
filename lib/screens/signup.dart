@@ -123,8 +123,8 @@ final usernamecontroller=TextEditingController();
                         height: 20, 
                       ), 
                       Googlebutton(onclick: () {
-                       Firebasegoogle().signinwithgoogle(); 
-                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom()));
+                       Firebasegoogle().signinwithgoogle(context); 
+                       //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom()));
                       }),
                     ],
                   ),

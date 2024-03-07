@@ -24,6 +24,7 @@ class Transactions extends StatelessWidget {
       keyboardType:type ,
       cursorColor: Colors.black,
       decoration: InputDecoration(
+      //  helperStyle: TextStyle(color: Colors.white), 
         //  focusColor: Colors.amber,
         
           focusedBorder: OutlineInputBorder(
@@ -31,7 +32,7 @@ class Transactions extends StatelessWidget {
               borderSide: BorderSide(color: Colors.transparent),
               borderRadius: BorderRadius.circular(20)),
           hoverColor: Colors.transparent,
-          fillColor: Colors.grey,
+          fillColor: Colors.blueGrey[900],
           filled: true,
           suffixIconColor: Colors.black,
           // suffix: InkWell(

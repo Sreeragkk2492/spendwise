@@ -1,25 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spendwise/controllers/splashprovider.dart';
 import 'package:spendwise/screens/welcome.dart';
 import 'package:spendwise/widgets/bottomnavbar.dart';
 
-class Splash extends StatefulWidget {
-  const Splash({super.key});
+class Splash extends StatelessWidget {
+   Splash({super.key});
 
-  @override
-  State<Splash> createState() => _SplashState();
-}
-
-class _SplashState extends State<Splash> {
   String? email;
 
   @override
-  void initState() {
-   gotowelcomescreen();
-    super.initState();
-  }
-  @override
   Widget build(BuildContext context) {
+    
+      Future.delayed(Duration(seconds: 3), () {
+      Provider.of<SplashProvider>(context, listen: false).completeSplash();
+    });
     return Scaffold(
       body: Stack(children: [
         Container(
@@ -38,11 +34,11 @@ class _SplashState extends State<Splash> {
       ]),
     );
   }
-  
-  void gotowelcomescreen() async{
-      User? user = FirebaseAuth.instance.currentUser;
-      Widget initialScreen = user != null ? Bottom() :const Welcome();
-    await Future.delayed(const Duration(seconds: 1));
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>initialScreen));
-  }
+
+  // void gotowelcomescreen() async{
+  //     User? user = FirebaseAuth.instance.currentUser;
+  //     Widget initialScreen = user != null ? Bottom() :const Welcome();
+  //   await Future.delayed(const Duration(seconds: 1));
+  //   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>initialScreen));
+  // }
 }

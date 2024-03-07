@@ -7,8 +7,6 @@ import 'package:spendwise/screens/chart.dart';
 import 'package:spendwise/screens/home.dart';
 
 class Bottom extends StatefulWidget {
- 
-
   @override
   State<Bottom> createState() => _BottomState();
 }
@@ -32,25 +30,17 @@ class _BottomState extends State<Bottom> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabBarView(controller: controller, children: [
-       Myhome(),
-    
-       Addinex(),
-          Charts()
-      
-      
-      ]),
+      body: TabBarView(
+          controller: controller, children: [Myhome(), Addinex(), Charts()]),
       bottomNavigationBar: MotionTabBar(
         controller:
             controller, // ADD THIS if you need to change your tab programmatically
-        initialSelectedTab: "Home", 
-        labels: const ["Home", "stats", "Add"],
+        initialSelectedTab: "Home",
+        labels: const ["Home", "Add", "Stats"],
         icons: const [
-          Icons.home, 
+          Icons.home,
           Icons.add,
           Icons.pie_chart,
-         
-         
         ],
 
         // optional badges, length must be same with labels
@@ -97,7 +87,7 @@ class _BottomState extends State<Bottom> with TickerProviderStateMixin {
         tabIconColor: Colors.grey,
         tabIconSize: 28.0,
         tabIconSelectedSize: 26.0,
-        tabSelectedColor: Color.fromARGB(255, 218, 18, 3), 
+        tabSelectedColor: Color.fromARGB(255, 218, 18, 3),
         tabIconSelectedColor: Colors.white,
         tabBarColor: Colors.black,
         onTabItemSelected: (int value) {

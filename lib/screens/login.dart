@@ -117,10 +117,10 @@ class Loginpage extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      Googlebutton(onclick: () { 
-                        Firebasegoogle().signinwithgoogle();
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom()));
-                      }),
+                      // Googlebutton(onclick: () async{  
+                      //   Firebasegoogle().signinwithgoogle();
+                      // await  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Bottom()));
+                      // }),
                     ],
                   ),
                 ),

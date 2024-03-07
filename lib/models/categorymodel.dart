@@ -3,42 +3,49 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Expensecategory{
-final  String name;
-final IconData icon;
-Expensecategory({required this.name,required this.icon});
+final  String? name;
+final IconData? icon;
+final transactiontype? type;
+Expensecategory({ this.name, this.icon,this.type});
+
+
 
 static  List<Expensecategory> expenses = [
-    Expensecategory(name: 'food', icon: FontAwesomeIcons.bowlFood),
-    Expensecategory(name: 'transportation', icon: FontAwesomeIcons.trainSubway),
-    Expensecategory(name: 'bills', icon: FontAwesomeIcons.moneyBillTransfer),
-    Expensecategory(name: 'home', icon: FontAwesomeIcons.house),
-    Expensecategory(name: 'car', icon: FontAwesomeIcons.car),
-    Expensecategory(name: 'entertainment', icon: FontAwesomeIcons.gamepad),
-    Expensecategory(name: 'shopping', icon: FontAwesomeIcons.shop),
-    Expensecategory(name: 'clothing', icon: FontAwesomeIcons.personDress),
-    Expensecategory(name: 'insurance', icon: FontAwesomeIcons.shield),
-    Expensecategory(name: 'cigerette', icon: FontAwesomeIcons.smoking),
-    Expensecategory(name: 'telephone', icon: FontAwesomeIcons.phone),
-    Expensecategory(name: 'health', icon: FontAwesomeIcons.suitcaseMedical),
-    Expensecategory(name: 'sports', icon: FontAwesomeIcons.dumbbell),
-    Expensecategory(name: 'baby', icon: FontAwesomeIcons.babyCarriage),
-    Expensecategory(name: 'pet', icon: FontAwesomeIcons.dog),
-    Expensecategory(name: 'education', icon: FontAwesomeIcons.school),
-    Expensecategory(name: 'travel', icon: FontAwesomeIcons.plane),
-    Expensecategory(name: 'gift', icon: FontAwesomeIcons.gifts),
+    Expensecategory(name: 'food', icon: FontAwesomeIcons.bowlFood,type: transactiontype.expence),
+    Expensecategory(name: 'transportation', icon: FontAwesomeIcons.trainSubway,type: transactiontype.expence),
+    Expensecategory(name: 'bills', icon: FontAwesomeIcons.moneyBillTransfer,type: transactiontype.expence),
+    Expensecategory(name: 'home', icon: FontAwesomeIcons.house,type: transactiontype.expence),
+    Expensecategory(name: 'car', icon: FontAwesomeIcons.car,type: transactiontype.expence),
+    Expensecategory(name: 'entertainment', icon: FontAwesomeIcons.gamepad,type: transactiontype.expence),
+    Expensecategory(name: 'shopping', icon: FontAwesomeIcons.shop,type: transactiontype.expence),
+    Expensecategory(name: 'clothing', icon: FontAwesomeIcons.personDress,type: transactiontype.expence),
+    Expensecategory(name: 'insurance', icon: FontAwesomeIcons.shield,type: transactiontype.expence),
+    Expensecategory(name: 'cigerette', icon: FontAwesomeIcons.smoking,type: transactiontype.expence),
+    Expensecategory(name: 'telephone', icon: FontAwesomeIcons.phone,type: transactiontype.expence),
+    Expensecategory(name: 'health', icon: FontAwesomeIcons.suitcaseMedical,type: transactiontype.expence),
+    Expensecategory(name: 'sports', icon: FontAwesomeIcons.dumbbell,type: transactiontype.expence),
+    Expensecategory(name: 'baby', icon: FontAwesomeIcons.babyCarriage,type: transactiontype.expence),
+    Expensecategory(name: 'pet', icon: FontAwesomeIcons.dog,type: transactiontype.expence),
+    Expensecategory(name: 'education', icon: FontAwesomeIcons.school,type: transactiontype.expence),
+    Expensecategory(name: 'travel', icon: FontAwesomeIcons.plane,type: transactiontype.expence),
+    Expensecategory(name: 'gift', icon: FontAwesomeIcons.gifts,type: transactiontype.expence),
   ];
   static List<Expensecategory> incomes = [
-    Expensecategory(name: 'salary', icon: FontAwesomeIcons.wallet),
-    Expensecategory(name: 'awards', icon: FontAwesomeIcons.sackDollar),
-    Expensecategory(name: 'grant', icon: FontAwesomeIcons.gift),
-    Expensecategory(name: 'sale', icon: FontAwesomeIcons.house),
-    Expensecategory(name: 'refund', icon: FontAwesomeIcons.car),
-    Expensecategory(name: 'lottery', icon: FontAwesomeIcons.car),
-    Expensecategory(name: 'coupens', icon: FontAwesomeIcons.car),
-    Expensecategory(name: 'investment', icon: FontAwesomeIcons.car),
+    Expensecategory(name: 'salary', icon: FontAwesomeIcons.wallet,type: transactiontype.income),
+    Expensecategory(name: 'awards', icon: FontAwesomeIcons.sackDollar,type: transactiontype.income),
+    Expensecategory(name: 'grant', icon: FontAwesomeIcons.gift,type: transactiontype.income),
+    Expensecategory(name: 'sale', icon: FontAwesomeIcons.house,type: transactiontype.income),
+    Expensecategory(name: 'refund', icon: FontAwesomeIcons.car,type: transactiontype.income),
+    Expensecategory(name: 'lottery', icon: FontAwesomeIcons.car,type: transactiontype.income),
+    Expensecategory(name: 'coupens', icon: FontAwesomeIcons.car,type: transactiontype.income),
+    Expensecategory(name: 'investment', icon: FontAwesomeIcons.car,type: transactiontype.income),
 
     
 
    ];
+}
+enum transactiontype{
+  income,
+  expence
 }
 
