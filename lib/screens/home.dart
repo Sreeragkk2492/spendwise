@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:spendwise/controllers/cardprovider.dart';
-import 'package:spendwise/models/firebasegoogle.dart';
+import 'package:spendwise/services/firebasegoogle.dart';
 import 'package:spendwise/screens/chart.dart';
 import 'package:spendwise/screens/login.dart';
-import 'package:spendwise/widgets/authbutton.dart';
-import 'package:spendwise/widgets/drawertile.dart';
-import 'package:spendwise/widgets/listview.dart';
+import 'package:spendwise/screens/widgets/authbutton.dart';
+import 'package:spendwise/screens/widgets/drawertile.dart';
+import 'package:spendwise/screens/widgets/listview.dart';
 
 class Myhome extends StatelessWidget {
   const Myhome({super.key});
@@ -63,7 +63,7 @@ class Myhome extends StatelessWidget {
       //       borderRadius: BorderRadius.circular(40)),
       //   child: SizedBox(),
       // ));
-      decoration: const BoxDecoration(color: Color.fromARGB(255, 218, 18, 9)),
+      decoration: const BoxDecoration(color: Colors.black),
       accountName: FutureBuilder(
         future: fetchDisplayName(isgoogleuser, currentUser),
         builder: (context, snapshot) {
@@ -95,14 +95,15 @@ class Myhome extends StatelessWidget {
       ),
     );
   }
+ 
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+ 
     return Scaffold(
         drawer: Drawer(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.black,
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,125 +150,140 @@ class Myhome extends StatelessWidget {
           //   decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!)),borderRadius: BorderRadius.circular(20)),
           //  ),
           centerTitle: true,
+          actions: [
+            IconButton(onPressed: (){
+              Provider.of<TransactionProvider>(context,listen: false ).clearshredpreference(); 
+            }, icon: Icon(FontAwesomeIcons.rotateRight,size: 17, ))
+          ],
           title: const Text(
             'SpendWise ',
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
-
-          backgroundColor: Colors.black,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
+          backgroundColor: Colors.black, 
           automaticallyImplyLeading: true,
         ),
         body: Consumer<TransactionProvider>(
           builder: (context, value, child) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Stack(children: [
-                      Container(
-                        width: size.width,
-                        height: size.height * 0.3,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                tileMode: TileMode.clamp,
-                                transform: GradientRotation(15),
-                                colors: [
-                                  Colors.red.shade900,
-                                  Colors.black,
-                                  Colors.blueGrey.shade900
-                                ]),
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                      const Positioned(
-                          left: 110,
-                          top: 15,
-                          child: Text(
-                            'Available balance',
-                            style: TextStyle(color: Colors.white, fontSize: 22),
-                          )),
-                      Positioned(
-                          top: 45,
-                          left: 140,
-                          child: Text(
-                            '\$ ${value.avlbalance}',
-                            style: TextStyle(
-                                fontSize: 30, color: Colors.grey[400]),
-                          )),
-                      const Positioned(
-                          left: 20,
-                          bottom: 100,
-                          child: Text(
-                            'Income',
-                            style: TextStyle(color: Colors.blue, fontSize: 20),
-                          )),
-                      const Positioned(
-                          right: 20,
-                          bottom: 100,
-                          child: Text(
-                            'Expence',
-                            style: TextStyle(color: Colors.red, fontSize: 20),
-                          )),
-                      Positioned(
-                          //  top: 0,
-                          left: 15,
-                          bottom: 70,
-                          child: Text(
-                            '\$ ${value.incomes}',
-                            style: TextStyle(fontSize: 20, color: Colors.grey),
-                          )),
-                      Positioned(
-                          //  top: 0,
-                          //  left: 15,
-                          right: 15,
-                          bottom: 70,
-                          child: Text(
-                            '\$ ${value.expenses}',
-                            style: TextStyle(fontSize: 20, color: Colors.grey),
-                          )),
-                      Positioned(
-                          bottom: 30,
-                          left: 10,
-                          child: TextButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => Charts()));
-                              },
-                              child: const Text(
-                                'Details',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
-                              ))),
-                      Positioned(
-                          bottom: 30,
-                          right: 10,
-                          child: TextButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => Charts()));
-                              },
-                              child: const Text(
-                                'Details',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
-                              )))
-                    ]),
-                  ),
-                  const Divider(
-                    thickness: 1,
-                    endIndent: 6.0,
-                    indent: 6,
-                    color: Colors.white,
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  // Text('Recent Transactions',style: TextStyle(color: Colors.white),),
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Stack(children: [
+                        Container(
+                          width: size.width,
+                          height: size.height * 0.3,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  tileMode: TileMode.clamp,
+                                  transform: GradientRotation(15),
+                                  colors: [
+                                    Colors.red.shade900,
+                                    Colors.black,
+                                    Colors.blueGrey.shade900
+                                  ]),
+                              borderRadius: BorderRadius.circular(20)),
+                        ),
+                        const Positioned(
+                            left: 110,
+                            top: 15,
+                            child: Text(
+                              'Available balance',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 22),
+                            )),
+                        Positioned(
+                            top: 45,
+                            left: 140,
+                            child: Text(
+                              '\$ ${value.avlbalance}', 
+                              style: TextStyle(
+                                  fontSize: 30, color: Colors.grey[400]),
+                            )),
+                        const Positioned(
+                            left: 20,
+                            bottom: 100,
+                            child: Text(
+                              'Income',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            )),
+                        const Positioned(
+                            right: 20,
+                            bottom: 100,
+                            child: Text(
+                              'Expence',
+                              style: TextStyle(color: Colors.red, fontSize: 20),
+                            )),
+                        Positioned(
+                            //  top: 0,
+                            left: 15,
+                            bottom: 70,
+                            child: Text(
+                              '\$ ${value.incomes}',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.grey),
+                            )),
+                        Positioned(
+                            //  top: 0,
+                            //  left: 15,
+                            right: 15,
+                            bottom: 70,
+                            child: Text(
+                              '\$ ${value.expenses}', 
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.grey),
+                            )),
+                        Positioned(
+                            bottom: 30,
+                            left: 10,
+                            child: TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Charts()));
+                                },
+                                child: const Text(
+                                  'Details',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ))),
+                        Positioned(
+                            bottom: 30,
+                            right: 10,
+                            child: TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Charts()));
+                                },
+                                child: const Text(
+                                  'Details',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                )))
+                      ]),
+                    ),
+                    const Divider(
+                      thickness: 1,
+                      endIndent: 6.0,
+                      indent: 6,
+                      color: Colors.white,
+                    ),
+                  
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
+                    // Text('Recent Transactions',style: TextStyle(color: Colors.white),),
 
-                  Containerlistview(),
-                ],
+                    Containerlistview(),
+                  ],
+                ),
               ),
             );
           },

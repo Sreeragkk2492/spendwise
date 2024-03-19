@@ -1,26 +1,20 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:spendwise/controllers/firebasecontroller.dart';
+import 'package:spendwise/models/chartmodel.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Charts extends StatelessWidget {
   Charts({super.key});
 
-  Map<String, double> datamap = {
-    "Salary": 7,
-    "Award": 2,
-    "grant": 8,
-    "Sale": 8,
-    "Refund": 0,
-    "Lottery": 0,
-    "Coupens": 0,
-    "Investments": 0,
-  };
-   final List<ChartData> chartData = [
-            ChartData('David', 25),
-            ChartData('Steve', 38),
-            ChartData('Jack', 34),
-            ChartData('Others', 52)
-        ];
+ 
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -32,26 +26,72 @@ class Charts extends StatelessWidget {
         title: Text('Chart',style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.black, 
       ),
-      body: Column(
-        children: [
-          Expanded(
-              child: SfCircularChart(
-                
-                        series: <CircularSeries>[
-                            // Render pie chart
-                            PieSeries<ChartData, String>(
-                              dataLabelSettings: DataLabelSettings(isVisible: true,),
-                              radius: '90%',
-                                dataSource: chartData,
-                                pointColorMapper:(ChartData data,  _) => data.color,
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y,
-                                dataLabelMapper:(ChartData data, _) => data.x ,
-                            )
-                        ]
-                    )
+      body: Consumer<FirebaseController>(builder: (context, value, child) {
+        return Column(
+          children: [
+            Expanded(
+                child: StreamBuilder<List<ChartModel>>( 
+                  stream: value.fetchdatachart(),
+                  builder: (context,AsyncSnapshot snapshot) {
+                   if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: LottieBuilder.asset(
+                  'assets/animations/a.json', 
+                  fit: BoxFit.cover,
+                  width: 150,
+                  height: 150,
+                ),
+              );
+            } else if (snapshot.data == null || snapshot.data!.isEmpty) {
+              return Center(
+                  child: LottieBuilder.asset(
+                'assets/animations/a.json', 
+                fit: BoxFit.cover,
+                width: 150,
+                height: 150,
+              ));
+            }
+            Map<String,dynamic> calcategoryamount={};
+            
+                  List <ChartModel> chartmodel=snapshot.data!; 
+                  chartmodel.forEach((ChartModel) {
+                    if(calcategoryamount.containsKey(ChartModel.category)){
+                      calcategoryamount[ChartModel.category] += ChartModel.amount;
+                    }else{
+                      calcategoryamount[ChartModel.category] = ChartModel.amount;
+                    }
+                  },);
+                  List<ChartModel> addedchart=[];
+                  calcategoryamount.forEach((category, amount) {
+                    addedchart.add(ChartModel(category, amount));
+                  },);
+        
+                    return SfCircularChart(
+                      
+                              series: <CircularSeries>[
+                                  // Render pie chart
+                                  PieSeries<ChartModel, String>(
+                                    dataLabelSettings: DataLabelSettings(isVisible: true,), 
+                                    radius: '90%',
+                                      dataSource: addedchart,
+                                      pointColorMapper:(ChartModel data,  _) => data.color,
+                                      xValueMapper: (ChartModel data, _) => data.category,
+                                      // ignore: avoid_types_as_parameter_names
+                                      yValueMapper: (ChartModel data, _) => data.amount,
+                                      dataLabelMapper:(ChartModel data, _) => data.category , 
+                                  )
+                              ]
+                          );
+                  }
                 )
-           ] )
+                  )
+             ] );
+      }
+       
+      )
          );
         
       
@@ -59,9 +99,4 @@ class Charts extends StatelessWidget {
   }
 }
 
-class ChartData {
-   ChartData(this.x, this.y, [this.color]);
-        final String x;
-        final double y;
-        final Color? color; 
-}
+

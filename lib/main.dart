@@ -7,7 +7,7 @@ import 'package:spendwise/controllers/firebasecontroller.dart';
 import 'package:spendwise/controllers/splashprovider.dart';
 import 'package:spendwise/screens/splash.dart';
 import 'package:spendwise/screens/welcome.dart';
-import 'package:spendwise/widgets/bottomnavbar.dart';
+import 'package:spendwise/screens/widgets/bottomnavbar.dart';
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
@@ -18,16 +18,20 @@ void main() async {
           messagingSenderId: "",
           projectId: "spendwise-7c1e1",
           storageBucket: 'spendwise-7c1e1.appspot.com'));
+ 
   // User? user=FirebaseAuth.instance.currentUser;
 
   runApp(Myapp());
 }
 
+
 class Myapp extends StatelessWidget {
   const Myapp({super.key});
 
+ 
   @override
   Widget build(BuildContext context) {
+    
     return MultiProvider(
         providers: [
            ChangeNotifierProvider(

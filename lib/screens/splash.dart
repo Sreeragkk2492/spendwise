@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spendwise/controllers/splashprovider.dart';
 import 'package:spendwise/screens/welcome.dart';
-import 'package:spendwise/widgets/bottomnavbar.dart';
+import 'package:spendwise/screens/widgets/bottomnavbar.dart';
 
 class Splash extends StatelessWidget {
    Splash({super.key});

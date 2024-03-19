@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spendwise/screens/login.dart';
 import 'package:spendwise/screens/signup.dart';
-import 'package:spendwise/widgets/authbutton.dart';
-import 'package:spendwise/widgets/textbutton.dart';
+import 'package:spendwise/screens/widgets/authbutton.dart';
+import 'package:spendwise/screens/widgets/textbutton.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});

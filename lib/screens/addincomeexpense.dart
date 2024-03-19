@@ -4,9 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:spendwise/controllers/cardprovider.dart';
 import 'package:spendwise/controllers/firebasecontroller.dart';
 import 'package:spendwise/models/categorymodel.dart';
-
-import 'package:spendwise/widgets/authbutton.dart';
-import 'package:spendwise/widgets/transactions.dart';
+import 'package:spendwise/screens/widgets/authbutton.dart';
+import 'package:spendwise/screens/widgets/transactions.dart';
 
 class Addinex extends StatefulWidget {
   Addinex({super.key});
@@ -27,6 +26,7 @@ class _AddinexState extends State<Addinex> {
   String textincome = '';
   String textexpense = '';
   List<Expensecategory> name = [];
+  Expensecategory? selectedCategory;
 
   bool isIncome = true;
   String dateformat = DateTime.now().toLocal().toString().split(' ')[0];
@@ -133,10 +133,14 @@ class _AddinexState extends State<Addinex> {
                         // showDialog(context: context, builder: (context)=> AlertDialog(
                         //   title: Text('transaction added succesfully'),
                         // ));
-
                         Provider.of<TransactionProvider>(context, listen: false)
-                            .avlabalance; 
-                            Provider.of<TransactionProvider>(context,listen: false).expence;
+                            .fetchcategory(categorycontroller.text);
+                        Provider.of<TransactionProvider>(context, listen: false)
+                            .fetchamount(amountcontroller.text);
+                        Provider.of<TransactionProvider>(context, listen: false)
+                             .avlabalance(); 
+                        // Provider.of<TransactionProvider>(context,listen: false).settosharedpreference(); 
+                        //  Provider.of<TransactionProvider>(context,listen: true).getsharedpreference();      
 
                         categorycontroller.clear();
                         amountcontroller.clear();

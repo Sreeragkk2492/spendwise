@@ -3,9 +3,9 @@ import 'package:spendwise/screens/home.dart';
 import 'package:spendwise/screens/login.dart';
 import 'package:spendwise/screens/signup.dart';
 import 'package:spendwise/screens/welcome.dart';
-import 'package:spendwise/widgets/authbutton.dart';
-import 'package:spendwise/widgets/bottomnavbar.dart';
-import 'package:spendwise/widgets/button.dart';
+import 'package:spendwise/screens/widgets/authbutton.dart';
+import 'package:spendwise/screens/widgets/bottomnavbar.dart';
+import 'package:spendwise/screens/widgets/button.dart';
 
 class Authentication extends StatelessWidget {
   const Authentication({super.key});

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:spendwise/models/firebase.dart';
-import 'package:spendwise/models/firebasegoogle.dart';
+import 'package:spendwise/services/firebase.dart';
 import 'package:spendwise/screens/signup.dart';
-import 'package:spendwise/widgets/authbutton.dart';
-import 'package:spendwise/widgets/bottomnavbar.dart';
-import 'package:spendwise/widgets/googlebutton.dart';
-import 'package:spendwise/widgets/heading.dart';
-import 'package:spendwise/widgets/textbutton.dart';
-import 'package:spendwise/widgets/textfieldwidget.dart';
+import 'package:spendwise/screens/widgets/authbutton.dart';
+import 'package:spendwise/screens/widgets/bottomnavbar.dart';
+import 'package:spendwise/screens/widgets/textbutton.dart';
+import 'package:spendwise/screens/widgets/textfieldwidget.dart';
 
 class Loginpage extends StatelessWidget {
    Loginpage({super.key});

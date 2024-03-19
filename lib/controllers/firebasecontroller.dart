@@ -1,15 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:spendwise/controllers/cardprovider.dart';
+import 'package:spendwise/models/chartmodel.dart';
 import 'package:spendwise/models/transactionmodel.dart';
 
 class FirebaseController extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
-late TransactionModel transmodel;
+  late TransactionModel transmodel;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   late CollectionReference transactioncollection;
   late CollectionReference subcollection;
   late CollectionReference fetchcollection;
+  String? documentid;
+ 
+  TransactionProvider provider =TransactionProvider();
 
   List<TransactionModel> _transactiondata = [];
   List<TransactionModel> get transactiondata => _transactiondata;
@@ -29,20 +34,61 @@ late TransactionModel transmodel;
       'date': date,
       'memo': memo
     });
+    
   }
 
-  Stream<List<TransactionModel>>fetchdata(){
-      String uid = auth.currentUser!.uid;
+  Stream<List<TransactionModel>> fetchdata() {
+    String uid = auth.currentUser!.uid;
     CollectionReference<Map<String, dynamic>> subcollection =
         firestore.collection('users').doc(uid).collection('transactions');
-
+ 
     return subcollection.snapshots().map(
       (querySnapshot) {
         return querySnapshot.docs.map((doc) {
           return TransactionModel.fromMap(doc.data() as Map<String, dynamic>);
         }).toList();
       },
-    ); 
       
-}
+    );
+   
+  }
+
+  Stream<List<ChartModel>> fetchdatachart() {
+    String uid = auth.currentUser!.uid;
+    CollectionReference<Map<String, dynamic>> subcollection =
+        firestore.collection('users').doc(uid).collection('transactions');
+
+    return subcollection.snapshots().map(
+      (querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          return ChartModel.fromfirebase(doc.data() as Map<String, dynamic>);
+        }).toList();
+      },
+    );
+  }
+
+  void getcollectiondocumentid() {
+    String uid = auth.currentUser!.uid;
+    firestore
+        .collection('users')
+        .doc(uid)
+        .collection('transactions')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((docs) {
+        documentid = docs.id;
+      });
+      firestore
+          .collection('users')
+          .doc(uid)
+          .collection('transactions')
+          .doc(documentid)
+          .delete();
+
+         
+         
+    });
+    
+  }
+ 
 }
