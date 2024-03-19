@@ -21,7 +21,7 @@ class Containerlistview extends StatelessWidget {
 
   String dateformat = DateTime.now().toLocal().toString().split(' ')[0];
 
-  bool isincome = true;
+  bool isEmpty=false;
 
   List transaction = [];
 
@@ -29,7 +29,7 @@ class Containerlistview extends StatelessWidget {
   Widget build(BuildContext context) {
     fetchdata(context);
     return Consumer<FirebaseController>(builder: (context, provider, child) {
-      return StreamBuilder<QuerySnapshot>(
+      return StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
           stream: provider.fetchdata(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -44,7 +44,8 @@ class Containerlistview extends StatelessWidget {
                   height: 150,
                 ),
               );
-            } else if (snapshot.data == null || snapshot.data!.isEmpty) {
+            } else if (snapshot.data == null|| snapshot.data!.docs.isEmpty){ 
+              isEmpty=true;
               return Center(
                   child: LottieBuilder.asset(
                 'assets/animations/animation.json',
@@ -54,7 +55,7 @@ class Containerlistview extends StatelessWidget {
               ));
             }
             {
-              List<QuerySnapshot> transaction = snapshot.data!; 
+              List<DocumentSnapshot<Map<String,dynamic>>> transaction = snapshot.data!.docs; 
               log(transaction.toString()); 
               //  Map<String,List<Map<String,dynamic>>> groupedtransaction={};
               return Padding(
@@ -68,6 +69,10 @@ class Containerlistview extends StatelessWidget {
                     itemCount: transaction.length,
                     itemBuilder: (context, index) {
                       final transac = transaction[index];
+                      final id=transaction[index].id;
+                      
+
+                      var transactions=TransactionModel.fromMap(transac.data()!);
                     
                       return InkWell(
                         onTap: () {
@@ -79,7 +84,7 @@ class Containerlistview extends StatelessWidget {
                             textColor: Colors.black,
                            // tileColor: Colors.grey[800], 
                             title: Text(
-                              transac.category,
+                              transactions.category,
                               style: TextStyle(fontSize: 18),
                             ),
                                           
@@ -87,12 +92,14 @@ class Containerlistview extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  '${transac.amount}',
+                                  '${transactions.amount}',
                                   style: TextStyle(fontSize: 17),
                                 ),
                                 IconButton(onPressed: (){
-                                 provider.getcollectiondocumentid(); 
-                                //  Provider.of<TransactionProvider>(context,listen: false).deleteAndUpdateBalances(); 
+                                  
+                                 provider.getcollectiondocumentid(id); 
+                                 Provider.of<TransactionProvider>(context,listen: false).deleteAndUpdateBalances(isEmpty);
+                                
                                 }, icon: Icon(FontAwesomeIcons.trash,color: Colors.red,))
                               ],
                             ),
@@ -101,11 +108,11 @@ class Containerlistview extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${transac.memo}',
+                                  '${transactions.memo}',
                                   style: TextStyle(fontSize: 12),
                                 ),
                                 Text(
-                                  transac.date,
+                                  transactions.date,
                                   style: TextStyle(fontSize: 11),
                                 )
                               ],

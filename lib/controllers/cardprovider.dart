@@ -12,8 +12,6 @@ class TransactionProvider extends ChangeNotifier {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   String? documentid;
   double _amount = 0;
- 
-
 
   double _avlbalance = 0.0;
   double _expenses = 0.0;
@@ -80,16 +78,16 @@ class TransactionProvider extends ChangeNotifier {
         category == 'gift') {
       _expenses += _amount as double;
       _avlbalance -= _amount as double;
-    } else  {
+    } else {
       _avlbalance += _amount as double;
       _income += _amount as double;
-    } 
-    settosharedpreference(); 
+    }
+    settosharedpreference();
 // getcollectiondocumentid();
     notifyListeners();
   }
 
-    void deleteAndUpdateBalances() {
+  void deleteAndUpdateBalances(bool isEmpty) {
     if (category == 'food' ||
         category == 'transportation' ||
         category == 'bills' ||
@@ -109,22 +107,25 @@ class TransactionProvider extends ChangeNotifier {
         category == 'travel' ||
         category == 'gift') {
       _expenses -= _amount;
-      _avlbalance += _amount ;
+      _avlbalance += _amount;
+      if (isEmpty) {
+        _avlbalance = 0.0;
+        _expenses = 0.0;
+        _income = 0.0;
+      }else{
+        
+      }
     } else {
-      _avlbalance -= _amount ;
-      _income -= _amount ;
+      _avlbalance -= _amount;
+      _income -= _amount;
     }
-    
-   settosharedpreference();
+
     notifyListeners();
   }
-  void clearshredpreference()async{
-     prefs = await SharedPreferences.getInstance();
-     prefs.clear();
-notifyListeners();
+
+  void clearshredpreference() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    notifyListeners();
   }
 }
-
- 
-
-  

@@ -14,11 +14,9 @@ class TransactionModel {
   }
 
   // Create an instance of the model from a Map retrieved from Firebase
-  factory TransactionModel.fromMap(Map<String,dynamic> transaction) {
-    return TransactionModel(
-        category: transaction['category'],
-        amount: transaction['amount'],
-        memo: transaction['memo'],
-        date: transaction['date']);
-  }
+  TransactionModel.fromMap(Map<String, dynamic> transaction)
+      : category = transaction['category'],
+        amount = transaction['amount'],
+        memo = transaction['memo'],
+        date = transaction['date'];
 }

@@ -13,8 +13,8 @@ class FirebaseController extends ChangeNotifier {
   late CollectionReference subcollection;
   late CollectionReference fetchcollection;
   String? documentid;
- 
-  TransactionProvider provider =TransactionProvider();
+
+  TransactionProvider provider = TransactionProvider();
 
   List<TransactionModel> _transactiondata = [];
   List<TransactionModel> get transactiondata => _transactiondata;
@@ -34,23 +34,18 @@ class FirebaseController extends ChangeNotifier {
       'date': date,
       'memo': memo
     });
-    
   }
 
-  Stream<List<TransactionModel>> fetchdata() {
+  Stream<QuerySnapshot<Map<String,dynamic>>> fetchdata() {
     String uid = auth.currentUser!.uid;
-    CollectionReference<Map<String, dynamic>> subcollection =
-        firestore.collection('users').doc(uid).collection('transactions');
- 
-    return subcollection.snapshots().map(
-      (querySnapshot) {
-        return querySnapshot.docs.map((doc) {
-          return TransactionModel.fromMap(doc.data() as Map<String, dynamic>);
-        }).toList();
-      },
-      
-    );
-   
+    // CollectionReference<Map<String, dynamic>> subcollection =
+    //     firestore.collection('users').doc(uid).collection('transactions');
+
+    return firestore
+        .collection('users')
+        .doc(uid)
+        .collection('transactions')
+        .snapshots();
   }
 
   Stream<List<ChartModel>> fetchdatachart() {
@@ -67,28 +62,8 @@ class FirebaseController extends ChangeNotifier {
     );
   }
 
-  void getcollectiondocumentid() {
+  void getcollectiondocumentid(String transacid) { 
     String uid = auth.currentUser!.uid;
-    firestore
-        .collection('users')
-        .doc(uid)
-        .collection('transactions')
-        .get()
-        .then((QuerySnapshot snapshot) {
-      snapshot.docs.forEach((docs) {
-        documentid = docs.id;
-      });
-      firestore
-          .collection('users')
-          .doc(uid)
-          .collection('transactions')
-          .doc(documentid)
-          .delete();
-
-         
-         
-    });
-    
+   firestore.collection('users').doc(uid).collection('transactions').doc(transacid).delete(); 
   }
- 
 }
